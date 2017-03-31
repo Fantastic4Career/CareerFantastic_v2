@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="http://netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/searchBar.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1 class="main-head text-center">Career Fantastic 
+      <img id="logo" src="assets/images/ff-logo.svg.png" alt="4" width="44" height="44">
+    </h1>
+
+    <form class="search-form" id="search-form">
+      <div class="row">
+        <div class="form-group col-sm-3">
+          <label for="job-title">Job Title</label>
+          <input type="text-center" class="form-control" id="job-title">
+        </div>
+        <div class="form-group col-sm-3">
+          <label for="laocation">Location</label>
+          <input type="text" class="form-control" id="location">
+        </div>
+        <div class="form-group col-sm-5" id="add-skill-button" @click="addTag()">
+          <label for="key-ords">Add Key Words</label>
+            <input type="text" class="form-control" id="key-words" v-model="newTag" />
+            <i class="glyphicon glyphicon-plus form-control-feedback" style="right: 20px;top: 25px;"></i>
+        </div>
+        <div class="form-group col-sm-1">
+          <label>&nbsp;</label>
+          <button type="submit" class="search btn btn-default" id="search" @click.prevent="searchJobs()">Search</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 tag-cloud" >
+          <ul id="select-skills" v-cloak>
+            <li v-for="tag in tags" @click.stop="removeTags(tag)">
+              <a @click.stop="toggleTag(tag)" v-bind:class="{ clicked: tag.selected, unclicked: !tag.selected }"><span></span>{{tag.name}}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </form>
+
+  <div class="row">
+    <div class="col-sm-6" id="search-results">
+      <h5 class="sub-head">Search Results</h5>
+        <div class="scrollable">
+        <div class="panel panel-default" v-cloak v-for="job in jobs">
+          <div class="panel-heading">
+            <h5 class="panel-title company-name">{{job.company}}
+            <button type ="submit" class="search-results-btn btn btn-default btn-xs pull-right glyphicon glyphicon-plus" @click.stop="removeJob(job)"></button>
+            </h5>
+          </div>
+          <div class="search panel-body">
+           <table class="table table-striped"> 
+             <tbody>
+               <tr>
+                <td class="job-title" colspan="4">Job Title: {{job.job_title}}</td>
+
+               </tr>
+           
+               <tr>
+                 <td class="location" >Location: {{job.location}}</td>
+                <td class="date-posted">Date Posted: {{job.date_posted}}</td>
+               </tr>
+           
+               <tr>
+                 <td class="skills-required" colspan="4">Skills Required: {{job.skills}}</td>
+               </tr>
+         
+             </tbody>
+           </table>
+          </div>
+        </div>     
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h5 class="panel-title company-name">Company
+            <button type ="submit" class="search-results-btn btn btn-default btn-xs pull-right glyphicon glyphicon-plus"></button>
+            </h5>
+          </div>
+          <div class="search panel-body">
+           <table class="table table-striped">
+             <tbody>
+               <tr>
+                <td class="job-title" colspan="4">Job Title:</td>
+               </tr>
+               <tr>
+                 <td class="address" colspan="4">Address:</td>
+                
+               </tr>
+               <tr>
+                 <td class="skills-required" colspan="4">Skills Required:</td>
+               </tr>
+               <tr>
+                 <td class="date-posted">Date Posted:</td>
+                 <td class="rating" >Rating:</td>
+               </tr>
+             </tbody>
+            </table>
+          </div>
+        </div> 
+      </div>   <!--end scrollable left colume-->
+    </div> <!--end left colume-->
+
+    <div class="col-sm-6" id="selected-results">
+
+      <h5 class="sub-head">Jobs of Interest:&nbsp;<span id="jobs-applying-num"></span></h5>
+        <div class="scrollable">
+        <div class="row" v-for="job in jobs">
+          <div class="card-container manual-flip">
+            <div class="card">
+                <div class="front">
+                  <div class="panel-heading">
+                    <h5 class="panel-title"><input class="content-editable" v-model="job.company" type="text" />
+                    <button type ="submit" class="btn btn-default btn-xs pull-right glyphicon glyphicon-trash" @click.stop="removeJob(job)"></button>
+                    <button type ="submit" class="btn btn-default btn-xs pull-right glyphicon glyphicon-save" @click.stop="updateJob(job)"></button>
+                    </h5> 
+                  </div>
+                  <div class="panel-body"> 
+                    <table class="table table-striped">
+                     <tbody>
+                       <tr>
+                        <td class="job-title" colspan="4"><div>Job Title: <input class="content-editable" v-model="job.job_title" type="text"/></div></td>
+                       </tr>
+                       <tr>
+                          <td class="address" colspan="4"><div>Address: <input class="content-editable" v-model="job.location" type="text"/></div></td>
+                       
+                       </tr>
+                      
+                    <td class="skills-required" colspan="4"><div>Skills Required: <input class="content-editable" v-model="job.skills" type="text"/></div></td>
+                       </tr>
+                       <tr>
+                       <td class="date-posted"><div>Date Posted: <input class="content-editable" v-model="job.date_posted" lazy type="date" style="max-width: 60%;" /></div></td>
+                       </tr>
+                       <tr>
+                        
+                         <td class="rating" style="max-width:40%%"><div>Rating: <span v-show="job.glassdoor_rating">{{job.glassdoor_rating}}</span>
+                         <select v-show="!job.glassdoor_rating" v-model="job.glassdoor_rating">
+                           <option v-for="option in job.glassdoor" v-bind:value="option.overallRating">
+                             {{ option.name }}
+                           </option>
+                         </select>
+                         </div></td>
+                       </tr>
+                     </tbody>
+                    </table>
+                  </div>
+                  <div class="footer">
+                    <button class="btn btn-simple" rel="tooltip" title="Flip Card">
+                        <i class="fa fa-reply"></i> See More
+                    </button>
+                  </div> 
+                </div> <!-- end front panel -->
+
+                <div class="back">
+                  <div class="panel-heading">
+                    <h5 class="panel-title"><span>{{job.company}}</span>
+                      <button type ="submit" class="add btn btn-default btn-xs pull-right glyphicon glyphicon-save" @click.stop="updateJob(job)"></button>
+                    </h5> 
+                  </div>
+                  <div class="panel-body">
+                    <form>
+                      <div class="form-group">
+                        <div class="date-applied"> Applied:<input type="date" placeholder="dd/mm/yyyy" v-model="job.date_applied"></div>
+                        <div class="date-interviewed">Interviewed:<input type="date" placeholder="dd/mm/yyyy" v-model="job.interviewed"></div>
+                        <textarea class="form-control" rows="5" id="comment" placeholder="comments" v-model="job.comments"></textarea>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="footer">
+                    <button class="btn btn-simple" rel="tooltip" title="Flip Card">
+                        <i class="fa fa-reply"></i> Go Back
+                    </button>
+                  </div>
+                </div> <!-- end back panel -->
+            </div> <!-- end card -->
+          </div> <!-- end card-container --> 
+        </div> 
+        <div class="row">
+          <div class="card-container manual-flip">
+            <div class="card">
+                <div class="front">
+                  <div class="panel-heading">
+                    <h5 class="panel-title">Panel title
+                    <button type ="submit" class="btn btn-default btn-xs pull-right glyphicon glyphicon-trash"></button>
+                    <button type ="submit" class="btn btn-default btn-xs pull-right glyphicon glyphicon-save"></button>
+                    </h5> 
+                  </div>
+                  <div class="panel-body"> Panel content </div>
+                  <div class="footer">
+                    <button class="btn btn-simple" rel="tooltip" title="Flip Card">
+                        <i class="fa fa-reply"></i> See More
+                    </button>
+                  </div> 
+                </div> <!-- end front panel -->
+
+                <div class="back">
+                  <div class="panel-heading">
+                    <h5 class="panel-title">xPanel title
+                      <button type ="submit" class="add btn btn-default btn-xs pull-right glyphicon glyphicon-save"></button>
+                    </h5> 
+                  </div>
+                  <div class="panel-body"> xPanel content </div>
+                  <div class="footer">
+                    <button class="btn btn-simple" rel="tooltip" title="Flip Card">
+                        <i class="fa fa-reply"></i> Go Back
+                    </button>
+                  </div>
+                </div> <!-- end back panel -->
+            </div> <!-- end card -->
+          </div> <!-- end card-container -->   
+        </div> <!-- end single right card row -->
+      </div> <!--end scrollable right colume--> 
+    </div> <!--end right colume--> 
+  </div> <!--end row-->
+
+  <div class="row">
+      <div class="map-wrapper col-sm-12">
+        <div id="googleMap"></div>
+      </div>
+  </div>
+  <div class="container-footer">
+  </div>
+  </div>  <!-- end container -->
+
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.6/lodash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.5.0/bluebird.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.7.2/firebase.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vuefire/1.4.0/vuefire.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
+  <script type="text/javascript" src="./assets/js/config/firebase_config.js"></script>
+  <script type="text/javascript" src="./assets/js/utils.js"></script>
+  <script type="text/javascript" src="./assets/js/firebaseInit.js"></script>
+  <script type="text/javascript" src="./assets/js/search.js"></script>
+  <script type="text/javascript" src="./assets/js/map.js"></script>
+  <script type="text/javascript" src="./assets/js/appliedJobs.js"></script>
+  <script type="text/javascript" src="assets/js/app.js"></script>
+  
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbFTVRcV979XmXvlgHMNcqrWcCz2EfbYs&libraries=places&callback=init" async defer></script>
+</body>
+</html>
