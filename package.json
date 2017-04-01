@@ -1,0 +1,24 @@
+{
+  "name": "careerfantastic_v2",
+  "version": "1.0.0",
+  "description": "A Handy Job/Career Engine",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fantastic4Career/CareerFantastic_v2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Fantastic4Career/CareerFantastic_v2/issues"
+  },
+  "homepage": "https://github.com/Fantastic4Career/CareerFantastic_v2#readme",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "request": "^2.81.0"
+  }
+}

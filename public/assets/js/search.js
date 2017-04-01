@@ -41,10 +41,28 @@ let searchBarVue = new Vue({
     },
     searchJobs: function() {
       console.log("searching jobs ....");
-      let selectedSkills = _.filter(this.tags, tag=>tag.selected);
-      let pure =[];
-      _.forEach(selectedSkills, skill=>pure.push(skill.name));
-      console.log("pure is>>>", pure);
+      let selectedSkills = _.reduce(this.tags, (result, tag)=>{
+        if (tag.selected){
+          result.push(tag.name);
+        }
+        return result;
+      }, []);
+      
+      console.log("selectedSkills>>>>", selectedSkills);
+      $.ajax({
+        method: 'POST',
+        url : '/api/searchjob',
+        dataType: 'json',
+        data: {
+          companyName: selectedSkills
+        },
+      })
+      .done(response=>{
+        console.log("get response from backend>>>", response);
+      })
+      .fail(error=>{
+        console.log("error getting response from backend");
+      })
       /*
       let title = $jobTitleInput.val().trim();
       let location = $locationInput.val().trim();
