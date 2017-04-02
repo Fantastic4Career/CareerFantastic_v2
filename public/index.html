@@ -6,6 +6,7 @@
   <link href="http://netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
   <link rel="stylesheet" type="text/css" href="assets/css/searchBar.css">
+
 </head>
 
 <body>
@@ -21,7 +22,7 @@
           <input type="text-center" class="form-control" id="job-title">
         </div>
         <div class="form-group col-sm-3">
-          <label for="laocation">Location</label>
+          <label for="location">Location</label>
           <input type="text" class="form-control" id="location">
         </div>
         <div class="form-group col-sm-5" id="add-skill-button" @click="addTag()">
@@ -226,22 +227,6 @@
   <div class="container-footer">
   </div>
   </div>  <!-- end container -->
-
-  <script src="https://code.jquery.com/jquery.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.6/lodash.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.5.0/bluebird.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/3.7.2/firebase.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vuefire/1.4.0/vuefire.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
-  <script type="text/javascript" src="./assets/js/config/firebase_config.js"></script>
-  <script type="text/javascript" src="./assets/js/utils.js"></script>
-  <script type="text/javascript" src="./assets/js/firebaseInit.js"></script>
-  <script type="text/javascript" src="./assets/js/search.js"></script>
-  <script type="text/javascript" src="./assets/js/map.js"></script>
-  <script type="text/javascript" src="./assets/js/appliedJobs.js"></script>
-  <script type="text/javascript" src="assets/js/app.js"></script>
-  
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbFTVRcV979XmXvlgHMNcqrWcCz2EfbYs&libraries=places&callback=init" async defer></script>
+  <script type="text/javascript" src="assets/javascript/bundle.js"></script>
 </body>
 </html>
