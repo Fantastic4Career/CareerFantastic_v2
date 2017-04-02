@@ -1,4 +1,5 @@
 import { searchBarVue } from './searchBar.es6';
+import { appliedJobsVue } from './appliedJobs.es6';
 import loadGoogleMapsAPI from 'load-google-maps-api';
 import { config } from './config/google_map_config.es6';
 loadGoogleMapsAPI(config).then(googleMaps => {
