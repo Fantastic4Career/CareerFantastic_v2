@@ -7,6 +7,7 @@ const searchJob = require('./server/controller/searchJob.controller.js');
 const app = express();
 app.use(bodyParser());
 app.use(express.static('public'));
+app.use(express.static('dist'));
 
 app.post('/api/searchjob', (req, res) => {
   return searchJob()
