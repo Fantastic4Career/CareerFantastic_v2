@@ -3,6 +3,12 @@ import * as $ from 'jquery';
 import { keywordsTagDB } from './firebaseInit.es6';
 import Vue from '../../../node_modules/vue/dist/vue.js';
 import VueFire from 'vuefire';
+// this won't work 
+//import VueGoogleMaps from '../../../node_modules/vue2-google-maps/dist/vue-google-maps.js';
+// neither is this
+//import VueGoogleMaps from 'vue2-google-maps';
+// neither is this
+//const VueGoogleMaps = require('vue2-google-maps');
 
 Vue.use(VueFire);
 
